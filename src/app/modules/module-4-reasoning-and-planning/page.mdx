@@ -11,6 +11,14 @@
 
 **推理（Reasoning）让 LLM 从"生成器"升级为"决策者"。** 这是 Agent 和普通 chatbot 的本质区别。
 
+## 交互演示：ReAct 循环可视化
+
+用下面的可视化器体验 ReAct 循环。三个预录的 Agent trace：成功执行、陷入循环、优雅降级。拖动时间轴观察每一步的 Thought → Action → Observation 过程。
+
+<ReActDemo />
+
+---
+
 ## ReAct 模式：Agent 推理的基石
 
 ReAct（Reasoning + Acting）是目前最广泛使用的 Agent 推理框架。它的核心是一个简单的循环：
