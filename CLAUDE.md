@@ -1,6 +1,8 @@
 # AgenticAI2026
 
-Interactive AI Agent learning curriculum for senior developers. Next.js + Nextra + React Flow + Tailwind CSS, deployed on Vercel.
+Interactive AI Agent learning curriculum for senior developers. Next.js + Nextra 4 + React Flow + Tailwind CSS, deployed on Vercel. 中文为主语言。
+
+@AGENTS.md
 
 ## Skill routing
 

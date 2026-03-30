@@ -1,0 +1,234 @@
+# Module 4: 推理与规划（Reasoning & Planning）
+
+> **核心比喻：** 侦探破案 — 提出假设 → 采取行动 → 收集证据 → 修正方向。Agent 的推理过程就像一个经验丰富的侦探，不是一步到位找到答案，而是通过循环迭代逐步逼近真相。
+
+## 为什么推理是 Agent 的核心能力？
+
+没有推理能力的 LLM 就是一个"高级自动补全"。它能根据上下文生成下一个 token，但不能：
+- 判断自己的回答是否正确
+- 决定下一步该做什么
+- 从失败中学习并调整策略
+
+**推理（Reasoning）让 LLM 从"生成器"升级为"决策者"。** 这是 Agent 和普通 chatbot 的本质区别。
+
+## ReAct 模式：Agent 推理的基石
+
+ReAct（Reasoning + Acting）是目前最广泛使用的 Agent 推理框架。它的核心是一个简单的循环：
+
+```
+Thought → Action → Observation → Thought → Action → Observation → ...
+```
+
+用侦探比喻来理解：
+
+| ReAct 步骤 | 侦探类比 | 示例 |
+|-----------|---------|------|
+| **Thought** | "根据现有线索，我怀疑是…" | "用户问的是天气，我需要调用天气 API" |
+| **Action** | "我去查一下监控录像" | `call weather_api(city="北京")` |
+| **Observation** | "录像显示嫌疑人在 3:15 出现" | `{"temp": 22, "condition": "晴"}` |
+| **Thought** | "这和不在场证明矛盾，我需要…" | "拿到了数据，现在组织回答给用户" |
+
+### 为什么不直接 Action？
+
+你可能会问：为什么需要 Thought 步骤？直接看到问题就调用工具不行吗？
+
+**不行。** 因为：
+
+1. **工具选择不是确定的** — 同一个问题可能需要不同的工具。"北京今天穿什么？"需要先查天气，再根据温度推荐。没有 Thought 步骤，Agent 不知道该先查天气还是直接推荐。
+
+2. **多步骤任务需要规划** — "帮我订明天上午从北京到上海的机票"至少需要：查航班 → 筛选时间 → 确认价格 → 下单。每一步之间需要 Thought 来决定下一步。
+
+3. **错误恢复需要反思** — 如果天气 API 返回错误，Agent 需要 Thought 来决定：重试？换一个 API？还是告诉用户"查不到"？
+
+### ReAct 的代码骨架
+
+```python
+def react_loop(query: str, tools: list, max_steps: int = 10):
+    """ReAct 循环的最小实现"""
+    messages = [{"role": "user", "content": query}]
+
+    for step in range(max_steps):
+        # 1. Thought: LLM 决定下一步
+        response = llm.chat(messages, tools=tools)
+
+        # 2. 如果 LLM 决定直接回答（不需要工具）→ 结束
+        if not response.tool_calls:
+            return response.content
+
+        # 3. Action: 执行工具调用
+        for tool_call in response.tool_calls:
+            result = execute_tool(tool_call)
+
+            # 4. Observation: 将结果反馈给 LLM
+            messages.append({
+                "role": "tool",
+                "content": result,
+                "tool_call_id": tool_call.id
+            })
+
+    return "达到最大步数，任务未完成"
+```
+
+这 20 行代码就是 Agent 推理的核心。LangGraph、CrewAI、AutoGen 等框架本质上都是在这个循环的基础上加了状态管理、错误处理和多 Agent 协调。
+
+## 任务分解：把大象装进冰箱
+
+复杂任务不能一步完成。Agent 需要学会**分解**。
+
+### 常见分解策略
+
+**1. 顺序分解（Sequential）**
+```
+"写一篇关于 AI Agent 的博客"
+  → 1. 搜索最新 AI Agent 资料
+  → 2. 整理关键观点
+  → 3. 写大纲
+  → 4. 写正文
+  → 5. 审校润色
+```
+
+**2. 层级分解（Hierarchical）**
+```
+"开发一个电商网站"
+  → 前端
+    → 商品列表页
+    → 购物车
+    → 结账流程
+  → 后端
+    → 商品 API
+    → 订单系统
+    → 支付集成
+  → 基础设施
+    → 数据库
+    → 部署
+```
+
+**3. 动态分解（Adaptive）**
+
+最强大也最难的策略：根据执行结果动态调整计划。
+
+```
+Plan: [搜索资料 → 写文章]
+Execute: 搜索资料 → 发现话题太大
+Re-plan: [缩小范围到 "MCP 协议" → 搜索 MCP 资料 → 写文章]
+Execute: 搜索 MCP → 找到 3 篇好文章
+Continue: [写文章]
+```
+
+这就是 **Plan-and-Execute** 模式的核心思想。和 ReAct 的区别：ReAct 每步都重新思考；Plan-and-Execute 先制定完整计划，执行中必要时修改计划。
+
+## 自我反思（Self-Reflection）
+
+Agent 会犯错。好的 Agent 知道自己犯了错，并能修正。
+
+### 反思的三个层次
+
+```
+Level 1: 结果检查
+  "API 返回了 404，说明这个端点不存在，换一个"
+
+Level 2: 策略反思
+  "我连续 3 次搜索都没找到答案，也许我的搜索关键词有问题"
+
+Level 3: 目标反思
+  "用户说'帮我提高代码质量'，我一直在找 bug，
+   但也许他更需要的是代码审查而不是 bug 修复"
+```
+
+### 实现自我反思的代码模式
+
+```python
+def reflect_and_retry(task, max_retries=3):
+    """带反思的重试逻辑"""
+    history = []
+
+    for attempt in range(max_retries):
+        result = execute(task)
+
+        if is_successful(result):
+            return result
+
+        # 关键：让 LLM 分析为什么失败
+        reflection = llm.chat([
+            {"role": "system", "content": "分析这次执行为什么失败，提出改进建议"},
+            {"role": "user", "content": f"任务: {task}\n结果: {result}\n历史: {history}"}
+        ])
+
+        history.append({"attempt": attempt, "result": result, "reflection": reflection})
+
+        # 根据反思修改策略
+        task = adjust_task(task, reflection)
+
+    return "多次尝试后仍然失败"
+```
+
+## 动态工具选择
+
+Agent 不是预先知道要用哪个工具的。它需要**在运行时**根据当前状态选择最合适的工具。
+
+### 工具选择的决策过程
+
+```
+用户问: "北京明天下雨吗？"
+
+可用工具:
+  - weather_api: 查询天气预报
+  - web_search: 搜索网页
+  - calculator: 数学计算
+  - code_executor: 执行代码
+
+Agent 的 Thought:
+  "用户问天气 → weather_api 最直接
+   但如果 weather_api 挂了 → web_search 是 fallback
+   calculator 和 code_executor 和这个问题无关"
+
+Agent 选择: weather_api
+```
+
+这个选择过程靠的是 LLM 对工具描述（tool description）的理解。**工具描述的质量直接决定 Agent 的工具选择准确率。**
+
+好的工具描述：
+```json
+{
+  "name": "weather_api",
+  "description": "获取指定城市未来 7 天的天气预报，包括温度、降水概率、风力。",
+  "parameters": {
+    "city": "城市名称（中文或英文）",
+    "days": "预报天数，1-7，默认 1"
+  }
+}
+```
+
+差的工具描述：
+```json
+{
+  "name": "weather",
+  "description": "天气工具",
+  "parameters": { "q": "查询" }
+}
+```
+
+## 常见失败模式
+
+| 失败模式 | 表现 | 原因 | 修复 |
+|---------|------|------|------|
+| **无限循环** | Agent 不断调用同一个工具 | 工具返回结果 Agent 无法理解，反复重试 | 设置 max_steps + 循环检测 |
+| **工具幻觉** | Agent 调用不存在的工具 | System prompt 中的工具列表和实际不一致 | 严格校验 tool_calls |
+| **过度规划** | Agent 花 10 步规划、0 步执行 | 任务描述太模糊，Agent 无法决定从哪开始 | 给出明确的第一步 |
+| **早期退出** | Agent 直接回答，不用工具 | 温度太低或 prompt 不鼓励工具使用 | 调整 prompt: "当需要信息时，必须使用工具" |
+
+## 参考项目
+
+- **LangGraph ReAct Agent** — ReAct 模式的生产级实现，带状态管理
+- **OpenAI Agents SDK** — 官方的 Agent 框架，内置推理循环
+- **Anthropic Claude tool use** — Claude 的工具调用 API，ReAct 的原生实现
+
+## 小结
+
+推理与规划是 Agent 的大脑。ReAct 是基础循环，任务分解是处理复杂任务的策略，自我反思是错误恢复的机制，动态工具选择是让 Agent 灵活应对的关键。
+
+**关键认知：** 所有 Agent 框架的核心都是这个 Thought → Action → Observation 循环。框架会变，循环不会变。理解了这个循环，你就理解了 Agent 推理的本质。
+
+---
+
+*下一模块：[Module 5: Pipeline Orchestrator](/modules/module-5-pipeline-orchestrator) — 如何编排多步骤的 Agent 工作流*
