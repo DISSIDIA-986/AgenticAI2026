@@ -1,9 +1,190 @@
-# Module 2: Memory Architecture（记忆架构）
+# Module 2: 记忆架构（Memory Architecture）
 
-> **核心比喻：** 人类记忆模型 — 工作记忆（短期）、长期存储、情景回忆（flashback）。
+> **核心比喻：** 人类记忆模型 — 工作记忆（短期，容量有限），长期存储（需要检索），情景回忆（特定经历的快照）。Agent 的记忆系统和人脑惊人地相似。
 
-*内容开发中...*
+## 为什么 Agent 需要记忆？
+
+没有记忆的 Agent 就像金鱼 — 每次对话都从零开始。它不记得你之前说过什么，不记得它做过什么决定，也不记得哪些方法有效、哪些失败了。
+
+**记忆让 Agent 从"无状态函数"升级为"有经验的助手"。**
+
+实际场景：
+- 用户说"用上次的格式" — Agent 不记得"上次"是什么
+- 调试一个 bug，Agent 之前试过 3 种方法都失败了 — 没有记忆它会再试同样的方法
+- 用户有特定偏好（比如偏好 TypeScript 而非 JavaScript）— 没有记忆每次都要重复说
+
+## 四种记忆类型
+
+### 1. 工作记忆（Working Memory）= 上下文窗口
+
+这是你在 Module 1 学过的内容。上下文窗口就是 Agent 的"工作台"，容量有限。
+
+```
+特点：
+- 容量有限（即使 128K 也不够复杂任务用）
+- 读写极快（就在 prompt 里）
+- 会话结束就消失
+- 所有信息都"同时可见"给模型
+```
+
+类比人脑：你正在解数学题时脑子里同时记着的那几个数字。容量约 7±2 个 chunk。
+
+### 2. 长期记忆（Long-term Memory）= Vector DB
+
+超出上下文窗口的信息需要存到外部存储中，需要时再检索回来。
+
+```python
+class LongTermMemory:
+    def __init__(self, vector_db):
+        self.db = vector_db
+
+    def store(self, text: str, metadata: dict):
+        """存入记忆：文本 → embedding → 向量数据库"""
+        embedding = embed_model.encode(text)
+        self.db.insert(embedding, text, metadata)
+
+    def recall(self, query: str, top_k: int = 5) -> list[str]:
+        """检索记忆：查询 → embedding → 相似度搜索"""
+        query_embedding = embed_model.encode(query)
+        results = self.db.search(query_embedding, top_k=top_k)
+        return [r.text for r in results]
+```
+
+类比人脑：你的知识库。你知道 Python 的语法，但你不是时刻都在想着它。需要的时候你"检索"出来。
+
+**关键问题：检索质量决定一切。** 存了 10 万条记忆，但检索出来的 5 条不相关，等于没有记忆。
+
+### 3. 情景记忆（Episodic Memory）= 经历快照
+
+情景记忆存储的不是事实，而是**完整的经历**：什么时候、做了什么、结果如何。
+
+```python
+episode = {
+    "timestamp": "2024-03-15T14:30:00Z",
+    "task": "用户让我调试一个 React 渲染循环问题",
+    "actions": [
+        "1. 检查 useEffect 依赖 → 发现缺少依赖项",
+        "2. 添加依赖项 → 导致无限循环",
+        "3. 改用 useRef 追踪前一个值 → 问题解决"
+    ],
+    "outcome": "成功",
+    "lesson": "React 渲染循环问题优先检查 useRef 方案"
+}
+```
+
+类比人脑：你记得"上次那个 bug 最后是怎么修好的"。不是抽象知识，是具体经历。
+
+**情景记忆是 Agent 自我反思的基础。** Module 4 讲的自我反思需要读取过去的经历来判断"之前这种方法有效吗"。
+
+### 4. 语义缓存（Semantic Cache）
+
+如果用户问的问题和之前的问题语义相似，直接返回缓存的答案。
+
+```python
+class SemanticCache:
+    def __init__(self, similarity_threshold=0.92):
+        self.cache = {}
+        self.threshold = similarity_threshold
+
+    def get(self, query: str) -> str | None:
+        query_emb = embed_model.encode(query)
+        for cached_emb, response in self.cache.items():
+            if cosine_similarity(query_emb, cached_emb) > self.threshold:
+                return response
+        return None
+
+    def set(self, query: str, response: str):
+        query_emb = embed_model.encode(query)
+        self.cache[query_emb] = response
+```
+
+"北京今天天气怎么样"和"北京今天气温多少"语义相似度很高，可以共享缓存。
+
+**价值：** 生产环境中，语义缓存可以节省 30-60% 的 API 调用。
+
+## 记忆检索策略
+
+存入记忆只是一半。**检索**才是难点。
+
+### 三种检索信号
+
+| 信号 | 问题 | 衡量方式 | 局限 |
+|------|------|---------|------|
+| **相关性（Relevance）** | 和当前问题有多相关？ | 向量相似度 | 语义相近但已过时的记忆 |
+| **时效性（Recency）** | 什么时候存的？ | 时间衰减函数 | 最新的不一定最有用 |
+| **重要性（Importance）** | 这条记忆有多重要？ | LLM 评估或人工标记 | 主观，难以自动判断 |
+
+### 综合评分
+
+最好的系统组合三种信号（来自 Stanford "Generative Agents" 论文）：
+
+```python
+def memory_score(memory, query, current_time):
+    relevance = cosine_similarity(embed(query), embed(memory.content))
+
+    hours_ago = (current_time - memory.timestamp).total_hours()
+    recency = 0.95 ** (hours_ago / 24)  # 每天衰减 5%
+
+    importance = memory.importance_score  # 0-1
+
+    return relevance * 0.5 + recency * 0.3 + importance * 0.2
+```
+
+## 记忆架构模式
+
+### 模式 1：对话摘要（最简单）
+
+每隔 N 轮对话，让 LLM 总结之前的内容，用摘要替换原始消息。
+
+**优点：** 实现简单。**缺点：** 总结过程丢失细节。
+
+### 模式 2：分层记忆（推荐）
+
+```
+记忆层级：
+├── 用户画像（长期不变）
+│   └── "Python 开发者，偏好简洁风格"
+├── 项目上下文（中期）
+│   └── "正在开发 AI Agent 课程网站"
+├── 当前任务（短期）
+│   └── "正在写 Module 2 内容"
+└── 对话历史（即时）
+    └── [最近 10 条消息]
+```
+
+每次对话自动加载"用户画像"和"项目上下文"到 system prompt。
+
+### 模式 3：MemGPT / Letta（最前沿）
+
+让 Agent **自己管理自己的记忆**：
+
+```python
+tools = [
+    {"name": "core_memory_append", "description": "追加到核心记忆"},
+    {"name": "core_memory_replace", "description": "替换核心记忆"},
+    {"name": "archival_memory_search", "description": "搜索归档记忆"},
+    {"name": "archival_memory_insert", "description": "插入归档记忆"},
+]
+# Agent 像调用工具一样操作自己的记忆
+```
+
+**记忆不是外部系统，而是 Agent 的原生能力。** 这是目前最前沿的方向。
+
+## 常见失败模式
+
+| 失败模式 | 表现 | 修复 |
+|---------|------|------|
+| **记忆过载** | 检索变慢，相关性下降 | 写入门槛 + 定期压缩 |
+| **记忆幻觉** | Agent "记住"从未发生的事 | 提高相似度阈值 + 元数据校验 |
+| **记忆冲突** | 新旧记忆矛盾 | 时间戳优先 + 显式覆盖 |
+| **隐私泄露** | A 用户信息给了 B | 按用户 ID 分区存储 |
+
+## 小结
+
+记忆是 Agent 从"工具"进化为"助手"的关键。四种类型各有用途。
+
+**关键认知：** 记忆的难点不在"存"，而在"取"。检索质量决定记忆系统的价值。
 
 ---
 
-*下一模块：[Module 3: Tools & MCP](/modules/module-3-tools-and-mcp)*
+*下一模块：[Module 3: Tools & MCP](/modules/module-3-tools-and-mcp) — Agent 如何使用工具与外部世界交互*

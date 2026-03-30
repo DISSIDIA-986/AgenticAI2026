@@ -1,9 +1,256 @@
-# Module 6: Multi-Agent Systems（多 Agent 系统）
+# Module 6: 多 Agent 系统（Multi-Agent Systems）
 
-> **核心比喻：** 手术团队 — 每个专家各有专长，协调者管理整体流程。
+> **核心比喻：** 手术团队 — 主刀医生、麻醉师、护士各有专长，协调者管理整体流程。没有人能独自完成一台手术，也没有单个 Agent 能高效处理所有类型的任务。
 
-*内容开发中...*
+## 为什么需要多个 Agent？
+
+单个 Agent 的局限：
+- **角色混淆** — 一个 Agent 同时当程序员、测试员、审查员，容易自己给自己放水
+- **上下文污染** — 处理任务 A 的中间状态影响了任务 B 的判断
+- **能力瓶颈** — System prompt 塞满了各种指令，每个都做不好
+
+多 Agent 的价值：**专业化 + 协作 = 超越单体的能力。**
+
+用手术团队类比：
+
+| 角色 | Agent 类比 | 职责 |
+|------|----------|------|
+| 主刀医生 | Executor Agent | 执行核心任务 |
+| 麻醉师 | Monitor Agent | 监控状态，发现异常 |
+| 护士 | Tool Agent | 准备和传递工具/数据 |
+| 手术协调员 | Orchestrator | 协调所有角色的工作顺序 |
+
+## 两种编排模式
+
+### 模式 1：固定管道（Fixed Pipeline）
+
+预定义好 Agent 的执行顺序。类比：工厂流水线。
+
+```python
+# 固定管道：代码审查流水线
+pipeline = [
+    CodeAnalyzer(),    # Step 1: 分析代码结构
+    SecurityReviewer(), # Step 2: 安全检查
+    StyleChecker(),     # Step 3: 风格检查
+    Summarizer(),       # Step 4: 生成审查报告
+]
+
+def run_pipeline(code: str):
+    context = {"code": code, "findings": []}
+    for agent in pipeline:
+        context = agent.run(context)
+    return context["findings"]
+```
+
+**优点：** 可预测，易调试，易测试。
+
+**缺点：** 不灵活。如果 Step 2 发现严重漏洞需要立刻停止，固定管道做不到。
+
+**适用场景：** 步骤确定、不需要动态决策的工作流。
+
+### 模式 2：动态编排（Dynamic Orchestration）
+
+一个 Orchestrator Agent 在运行时决定接下来由谁来工作。类比：手术协调员根据手术进展实时调度。
+
+```python
+class Orchestrator:
+    def __init__(self, agents: dict[str, Agent]):
+        self.agents = agents
+
+    def run(self, task: str):
+        """Orchestrator 动态决定下一步"""
+        context = {"task": task, "history": []}
+
+        while not self.is_done(context):
+            # LLM 决定下一个应该工作的 Agent
+            next_agent_name = self.decide_next(context)
+            agent = self.agents[next_agent_name]
+
+            # 执行并更新上下文
+            result = agent.run(context)
+            context["history"].append({
+                "agent": next_agent_name,
+                "result": result
+            })
+
+        return context
+
+    def decide_next(self, context) -> str:
+        """用 LLM 决定下一步"""
+        prompt = f"""
+        任务: {context['task']}
+        已完成: {context['history']}
+        可用 Agent: {list(self.agents.keys())}
+
+        下一步应该由哪个 Agent 处理？只返回 Agent 名称。
+        """
+        return llm.chat(prompt).strip()
+```
+
+**优点：** 灵活，能处理意外情况。
+
+**缺点：** 不可预测（LLM 可能选错 Agent），调试困难。
+
+**适用场景：** 复杂任务，步骤不确定，需要根据中间结果动态调整。
+
+## 通信模式
+
+多个 Agent 之间怎么交流？三种主要模式：
+
+### 1. 共享状态（Shared State）
+
+所有 Agent 读写同一个状态对象。
+
+```python
+shared_state = {
+    "task": "写一篇技术博客",
+    "outline": None,      # Writer 写入
+    "draft": None,         # Writer 写入
+    "review_comments": [], # Reviewer 写入
+    "final": None,         # Editor 写入
+}
+```
+
+**优点：** 简单直接。**缺点：** 并发冲突，状态污染。
+
+### 2. 消息传递（Message Passing）
+
+Agent 之间通过消息队列通信。
+
+```python
+# Agent A 发消息给 Agent B
+message_bus.send(
+    from_agent="researcher",
+    to_agent="writer",
+    content={"topic": "MCP 协议", "sources": [...]}
+)
+
+# Agent B 接收
+msg = message_bus.receive("writer")
+```
+
+**优点：** 解耦，可追踪。**缺点：** 实现复杂，消息格式需要标准化。
+
+### 3. 层级委托（Hierarchical Delegation）
+
+上级 Agent 把子任务分配给下级 Agent。
+
+```
+Orchestrator
+├── "研究 MCP 最新动态" → Researcher Agent
+├── "写大纲" → Writer Agent
+└── "审查最终版本" → Reviewer Agent
+```
+
+**优点：** 清晰的责任链。**缺点：** Orchestrator 是单点故障。
+
+## 实战模式：常见的多 Agent 架构
+
+### 架构 1：辩论模式（Debate）
+
+两个 Agent 对同一个问题给出不同观点，第三个 Agent 做裁判。
+
+```python
+def debate(question: str) -> str:
+    pro = agent_pro.argue(question, position="支持")
+    con = agent_con.argue(question, position="反对")
+    verdict = judge.decide(question, pro, con)
+    return verdict
+```
+
+**用途：** 减少幻觉。一个 Agent 可能胡说八道，但两个 Agent 互相质疑能暴露问题。
+
+### 架构 2：专家委员会（Expert Panel）
+
+不同领域的专家 Agent 各自分析，汇总意见。
+
+```python
+experts = {
+    "security": SecurityExpert(),
+    "performance": PerformanceExpert(),
+    "architecture": ArchitectureExpert(),
+}
+
+def expert_review(code: str) -> dict:
+    opinions = {}
+    for domain, expert in experts.items():
+        opinions[domain] = expert.review(code)
+    return synthesize(opinions)
+```
+
+**用途：** 代码审查、风险评估、方案评审。每个专家只关注自己擅长的领域。
+
+### 架构 3：生产者-消费者（Producer-Consumer）
+
+一个 Agent 生产内容，另一个消费并改进。
+
+```
+Researcher → [搜索结果] → Writer → [草稿] → Editor → [终稿]
+```
+
+**用途：** 内容生成、数据处理管道。
+
+### 架构 4：自我博弈（Self-Play）
+
+同一类型的 Agent 互相竞争或合作，通过迭代提升质量。
+
+```python
+def iterative_improve(draft: str, rounds: int = 3) -> str:
+    for _ in range(rounds):
+        critique = critic_agent.review(draft)
+        draft = writer_agent.improve(draft, critique)
+    return draft
+```
+
+**用途：** 内容质量提升、代码优化。
+
+## 框架对比
+
+不同框架实现多 Agent 的方式不同，但底层模式是一样的：
+
+| 框架 | 编排方式 | 通信方式 | 适合场景 |
+|------|---------|---------|---------|
+| **CrewAI** | 角色 + 任务定义 | 共享状态 | 快速搭建固定角色团队 |
+| **AutoGen** | 对话式协作 | 消息传递 | Agent 之间需要自由对话 |
+| **LangGraph** | 图 + 状态机 | 共享状态 | 需要精确控制执行流程 |
+| **OpenAI Swarm** | 轻量 handoff | 函数调用 | 简单的 Agent 切换 |
+
+**记住：框架是模式的实现，不是模式本身。** 理解了编排、通信、委托这三个底层模式，你可以用任何框架（甚至不用框架）构建多 Agent 系统。
+
+## 常见失败模式
+
+| 失败模式 | 表现 | 修复 |
+|---------|------|------|
+| **无限循环** | Agent A 把任务给 B，B 又给回 A | 设置最大轮次 + 循环检测 |
+| **踢皮球** | 每个 Agent 都说"这不是我的职责" | 明确每个 Agent 的职责边界 |
+| **信息丢失** | Agent 之间传递时丢了关键上下文 | 结构化消息格式 + 强制包含关键字段 |
+| **成本爆炸** | 5 个 Agent 各调 10 次 LLM = 50 次 API 调用 | 缓存 + 限制最大步数 + 用小模型做简单任务 |
+| **过度设计** | 2 个 Agent 就能搞定，用了 8 个 | 从 1 个开始，只在遇到瓶颈时拆分 |
+
+## 何时使用多 Agent？
+
+**不要默认使用多 Agent。** 复杂度是有成本的。
+
+```
+用单 Agent 的情况：
+✅ 任务类型单一（只写代码、只搜索）
+✅ 不需要多角色视角
+✅ 上下文窗口够用
+✅ 延迟要求严格（多 Agent 增加延迟）
+
+用多 Agent 的情况：
+✅ 任务需要不同专业能力（安全 + 性能 + 架构）
+✅ 需要互相检查（减少幻觉）
+✅ 任务可以并行化（加速）
+✅ 单个 prompt 已经过于复杂
+```
+
+## 小结
+
+多 Agent 系统的核心是三件事：**专业化**（每个 Agent 做一件事做好）、**编排**（谁先谁后、如何决策）、**通信**（怎么共享信息）。
+
+**关键认知：** 从一个 Agent 开始。只在单 Agent 遇到明确瓶颈时（角色冲突、上下文过长、需要多视角检查）才拆分为多 Agent。过度设计多 Agent 系统是最常见的错误。
 
 ---
 
-*下一模块：[Module 7: Production Essentials](/modules/module-7-production-essentials)*
+*下一模块：[Module 7: Production Essentials](/modules/module-7-production-essentials) — 把 Agent 安全可靠地推向生产环境*
