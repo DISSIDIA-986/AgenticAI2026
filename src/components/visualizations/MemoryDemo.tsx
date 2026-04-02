@@ -113,7 +113,7 @@ export default function MemoryDemo() {
           border: '1px solid #d1d5db', background: '#f9fafb',
           marginBottom: 16, fontSize: 13, color: '#6b7280',
         }}>
-          初始状态 — 点击"播放"或拖动时间轴开始
+          初始状态，点击&quot;播放&quot;或拖动时间轴开始
         </div>
       )}
 
