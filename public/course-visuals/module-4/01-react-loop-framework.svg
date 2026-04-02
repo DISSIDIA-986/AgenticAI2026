@@ -1,0 +1,63 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#16345F">ReAct Loop</text>
+  <text x="800" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">Reason, act, observe, and stop when evidence is sufficient. The loop matters only if it also knows when to exit.</text>
+
+  <defs>
+    <marker id="loop-arrow" markerWidth="18" markerHeight="18" refX="14" refY="9" orient="auto">
+      <path d="M2 2L16 9L2 16" fill="none" stroke="#1E3A8A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="safe-arrow" markerWidth="18" markerHeight="18" refX="14" refY="9" orient="auto">
+      <path d="M2 2L16 9L2 16" fill="none" stroke="#EA580C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <circle cx="800" cy="470" r="238" stroke="#BFDBFE" stroke-width="3" stroke-dasharray="10 10"/>
+  <circle cx="800" cy="470" r="198" stroke="#DBEAFE" stroke-width="2"/>
+
+  <circle cx="800" cy="256" r="92" fill="#2563EB"/>
+  <text x="800" y="244" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC">Question</text>
+  <text x="800" y="284" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#DBEAFE">user goal enters the loop</text>
+
+  <circle cx="1080" cy="470" r="102" fill="#1D4ED8"/>
+  <text x="1080" y="458" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#F8FAFC">Thought</text>
+  <text x="1080" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#DBEAFE">what is missing?</text>
+
+  <circle cx="800" cy="694" r="92" fill="#93C5FD"/>
+  <text x="800" y="682" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Action</text>
+  <text x="800" y="722" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">tool call or world step</text>
+
+  <circle cx="520" cy="470" r="102" fill="#2563EB"/>
+  <text x="520" y="458" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#F8FAFC">Observation</text>
+  <text x="520" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#DBEAFE">result or new evidence</text>
+
+  <path d="M880 294C980 320 1060 390 1108 468" stroke="#1E3A8A" stroke-width="18" stroke-linecap="round" fill="none" marker-end="url(#loop-arrow)"/>
+  <path d="M1060 570C1020 636 936 684 848 694" stroke="#1E3A8A" stroke-width="18" stroke-linecap="round" fill="none" marker-end="url(#loop-arrow)"/>
+  <path d="M720 694C632 684 548 636 504 570" stroke="#1E3A8A" stroke-width="18" stroke-linecap="round" fill="none" marker-end="url(#loop-arrow)"/>
+  <path d="M492 372C540 302 624 258 718 248" stroke="#1E3A8A" stroke-width="18" stroke-linecap="round" fill="none" marker-end="url(#loop-arrow)"/>
+
+  <path d="M886 250C1110 236 1290 336 1324 496C1342 584 1304 650 1238 700" stroke="#F59E0B" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M1238 700C1188 736 1124 754 1050 752" stroke="#F59E0B" stroke-width="12" stroke-linecap="round" fill="none" marker-end="url(#safe-arrow)"/>
+  <text x="1270" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#9A3412">Exit Path</text>
+  <text x="1270" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#9A3412">enough evidence</text>
+  <text x="1270" y="436" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#9A3412">no tool needed</text>
+
+  <rect x="1168" y="666" width="282" height="110" rx="24" fill="#FFF7ED" stroke="#FDBA74" stroke-width="3"/>
+  <text x="1309" y="712" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#9A3412">Final Answer</text>
+  <text x="1309" y="752" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#9A3412">stop the loop deliberately</text>
+
+  <text x="240" y="346" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#16345F">Failure Mode</text>
+  <text x="240" y="388" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">infinite loop</text>
+  <text x="240" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">hallucinated tool use</text>
+  <text x="240" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">no progress after repeated steps</text>
+
+  <text x="240" y="596" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#16345F">Safety Rail</text>
+  <text x="240" y="638" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">max steps</text>
+  <text x="240" y="670" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">loop detection</text>
+  <text x="240" y="702" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">force fallback</text>
+
+  <rect x="102" y="796" width="1396" height="58" rx="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="800" y="832" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">A useful ReAct agent is not just a loop. It is a loop with explicit stop conditions, bounded retries, and a safe path to final answer.</text>
+</svg>

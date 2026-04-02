@@ -1,0 +1,80 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#16345F">Advanced RAG Assembly Pipeline</text>
+  <text x="800" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">The goal is not “retrieve everything”, but to assemble the right context package for the current task.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="76" y="286" width="190" height="230" rx="26" fill="#16345F"/>
+  <text x="171" y="352" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#F8FAFC">User Query</text>
+  <text x="171" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#DBEAFE">short</text>
+  <text x="171" y="436" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#DBEAFE">messy</text>
+  <text x="171" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#DBEAFE">underspecified</text>
+
+  <rect x="320" y="252" width="220" height="300" rx="26" fill="#E0F2FE" stroke="#0284C7" stroke-width="4"/>
+  <text x="430" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">HyDE</text>
+  <text x="430" y="376" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">generate a hypothetical</text>
+  <text x="430" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">answer so retrieval starts</text>
+  <text x="430" y="444" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">from the right semantic region</text>
+  <rect x="358" y="476" width="144" height="42" rx="16" fill="#BFDBFE"/>
+  <text x="430" y="504" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#16345F">bridge gap</text>
+
+  <rect x="594" y="252" width="240" height="300" rx="26" fill="#D1FAE5" stroke="#16A34A" stroke-width="4"/>
+  <text x="714" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">Metadata Filter</text>
+  <text x="714" y="376" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">narrow candidates by</text>
+  <text x="714" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">module, freshness, type,</text>
+  <text x="714" y="444" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">difficulty, permissions</text>
+  <rect x="642" y="476" width="144" height="42" rx="16" fill="#86EFAC"/>
+  <text x="714" y="504" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#14532D">top_k 15-25</text>
+
+  <rect x="888" y="252" width="220" height="300" rx="26" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
+  <text x="998" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">Vector Retrieve</text>
+  <text x="998" y="376" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">fetch a broad candidate set</text>
+  <text x="998" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">with high recall before</text>
+  <text x="998" y="444" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">precision sorting</text>
+  <rect x="926" y="476" width="144" height="42" rx="16" fill="#BFDBFE"/>
+  <text x="998" y="504" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#16345F">candidate pool</text>
+
+  <rect x="1162" y="252" width="200" height="300" rx="26" fill="#FDE4C7" stroke="#EA580C" stroke-width="4"/>
+  <text x="1262" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">Rerank</text>
+  <text x="1262" y="376" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">cross-encoder style</text>
+  <text x="1262" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">precision sorting</text>
+  <text x="1262" y="444" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#16345F">for this exact task</text>
+  <rect x="1190" y="476" width="144" height="42" rx="16" fill="#FDBA74"/>
+  <text x="1262" y="504" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#7C2D12">top_n 5</text>
+
+  <rect x="1388" y="304" width="136" height="196" rx="24" fill="#16345F"/>
+  <text x="1456" y="374" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#F8FAFC">Final</text>
+  <text x="1456" y="418" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#F8FAFC">Context</text>
+  <text x="1456" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">Pack</text>
+
+  <rect x="1326" y="620" width="236" height="122" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="1444" y="666" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#16345F">LLM Input</text>
+  <text x="1444" y="704" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">top docs + summary</text>
+
+  <path d="M266 402H320" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M540 402H594" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M834 402H888" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M1108 402H1162" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M1362 402H1388" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M1456 500V620" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <path d="M714 552V618H1000" stroke="#16A34A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1000 618V552" stroke="#16A34A" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="856" y="606" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#14532D">shrink search space before recall pass</text>
+
+  <text x="171" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">problem</text>
+  <text x="430" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">semantic gap</text>
+  <text x="714" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">search narrowing</text>
+  <text x="998" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">high recall</text>
+  <text x="1262" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">high precision</text>
+
+  <rect x="88" y="782" width="1424" height="60" rx="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="800" y="820" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">Advanced RAG is context assembly: first improve recall, then narrow, then sort, then package only what the model needs right now.</text>
+</svg>

@@ -2,6 +2,19 @@
 
 > 面向资深开发者的 AI Agent 架构学习课程。概念驱动，不教框架 API。
 
+## 这门课适合谁
+
+- 已经会做软件工程，但想系统理解 Agent 架构的人
+- 不想被某个框架 API 绑架，想先建立模式判断力的人
+- 正在把聊天机器人升级成可规划、可调用工具、可上线运行系统的人
+
+## 你会建立什么能力
+
+- 把 Agent 拆成 `context / memory / tools / reasoning / orchestration / production` 六层来看
+- 判断一个问题应该靠更好的上下文、更多记忆、更多工具，还是更强的编排来解决
+- 看懂主流 Agent 框架背后的共性模式，而不是只会背 API 名字
+- 用一套更接近生产环境的视角审视成本、风险、可观测性和人工接管
+
 ## 为什么做这个课程？
 
 现有的 AI Agent 课程要么太基础（面向初学者），要么太碎片化（无系统路径），要么太长（谁有时间看 10 小时视频？）。
@@ -14,20 +27,24 @@
 
 ## 7 个模块
 
-| 模块 | 主题 | 核心比喻 |
-|------|------|---------|
-| [1. Context Engineering](/modules/module-1-context-engineering) | 上下文窗口管理、RAG 进阶 | 工作台 — 有限空间，战略摆放 |
-| [2. Memory Architecture](/modules/module-2-memory-architecture) | 短期/长期/情景记忆 | 人类记忆模型 — 工作记忆、长期存储 |
-| [3. Tools & MCP](/modules/module-3-tools-and-mcp) | 函数调用、MCP 协议 | 工匠与工具，MCP 是万能适配器 |
-| [4. Reasoning & Planning](/modules/module-4-reasoning-and-planning) | ReAct 循环、任务分解 | 侦探破案 — 假设、调查、证据、修正 |
-| [5. Pipeline Orchestrator](/modules/module-5-pipeline-orchestrator) | 状态机、事件驱动管道 | 电影导演 + 制作流水线 |
-| [6. Multi-Agent Systems](/modules/module-6-multi-agent-systems) | 多 Agent 协作、动态编排 | 手术团队 — 各有专长，协调配合 |
-| [7. Production Essentials](/modules/module-7-production-essentials) | Guardrails、可观测性、评估 | 任务控制中心 — 监控、告警、手动覆盖 |
+| 模块 | 这章回答什么问题 | 核心比喻 |
+|------|----------------|---------|
+| [1. Context Engineering](/modules/module-1-context-engineering) | Agent 每一轮到底该把什么放进 context window？ | 工作台 — 有限空间，战略摆放 |
+| [2. Memory Architecture](/modules/module-2-memory-architecture) | 超出窗口的信息该怎么记、怎么取、怎么避免记错？ | 人类记忆模型 — 工作记忆、长期存储 |
+| [3. Tools & MCP](/modules/module-3-tools-and-mcp) | Agent 如何安全地调用外部能力，为什么 MCP 会成为标准层？ | 工匠与工具，MCP 是万能适配器 |
+| [4. Reasoning & Planning](/modules/module-4-reasoning-and-planning) | Agent 如何思考、拆任务、反思、选工具？ | 侦探破案 — 假设、调查、证据、修正 |
+| [5. Pipeline Orchestrator](/modules/module-5-pipeline-orchestrator) | 多步骤任务何时要上状态机、事件驱动和图编排？ | 电影导演 + 制作流水线 |
+| [6. Multi-Agent Systems](/modules/module-6-multi-agent-systems) | 什么时候值得拆成多个 Agent，它们怎么协作？ | 手术团队 — 各有专长，协调配合 |
+| [7. Production Essentials](/modules/module-7-production-essentials) | Agent 上线后如何控风险、做观测、跑评估？ | 任务控制中心 — 监控、告警、手动覆盖 |
 
-## 学习路径建议
+## 推荐学习方式
 
-**快速入门：** 先看 Module 4（推理与规划），这是 Agent 最核心的能力。
+- **快速建立全局：** 先看 Module 4，再回头看 Module 1、3、5。先理解 Agent 如何思考，再补上下文、工具和编排。
+- **系统学习：** 按顺序 1 → 7。每章都建立在前一章之上，这条路径最适合真正要落地系统的人。
+- **按需查阅：** 每章都独立成篇，可以把它当作架构手册，按你当前的瓶颈跳读。
 
-**系统学习：** 按顺序 1 → 7，每个模块建立在前一个的基础上。
+## 建议阅读节奏
 
-**按需查阅：** 每个模块独立成篇，可以直接跳到你关心的主题。
+- 每章先看开头的“这章在解决什么问题”和“学完后你应该能做什么”
+- 先看图，再看交互 demo，再读正文和代码片段
+- 每章末尾的“实战检查表”可以直接当作设计评审提纲

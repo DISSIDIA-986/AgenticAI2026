@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 # Module 7: Production Essentials（生产环境要点）
 
 > **核心比喻：** 任务控制中心 — 监控面板、告警系统、手动覆盖按钮（如 NASA 的 Mission Control）。
@@ -10,9 +12,32 @@ Apollo 13 的飞行控制员没有直接修复太空中的氧气罐。他们通�
 
 ---
 
+## 这章在解决什么问题？
+
+Agent 真正难的不是“跑起来”，而是“出了问题时你能不能看见、拦住、接管、回滚”。这一章把 Agent 当成生产系统来对待，而不是当成一段会输出文本的 demo。
+
+## 读这一章时，先盯住三件事
+
+- Guardrails 为什么必须分成输入、工具调用、输出三层
+- 哪些决策必须进 human-in-the-loop，而不是继续自动化
+- Agent 的观测、评估和成本控制为什么必须像线上服务一样严格
+
+## 学完后你应该能做什么
+
+- 画出一个 Agent 的最小生产防线，而不是只谈 prompt 和模型
+- 给高风险操作设计审批门、降级路径和熔断策略
+- 建立一套能持续改进 Agent 的评估和反馈闭环
+
 ## 1. Guardrails：安全边界系统
 
 传统 API 的输入验证是确定性的：字段类型、长度限制、正则匹配。Agent 的输入是自然语言，输出是非确定性的。这要求完全不同的防御策略。
+
+<Image
+  src="/course-visuals/module-7/01-guardrail-stack-input-to-output.svg"
+  alt="Guardrail 分层防线图，展示输入、工具调用、输出和系统控制四层如何沿着 Agent 运行路径逐层防护。"
+  width={1600}
+  height={900}
+/>
 
 ### 输入层防御
 
@@ -71,6 +96,13 @@ class OutputGuardrail:
 
 Mission Control 的核心设计理念：**自动化处理常规操作，人类决策关键时刻。** 不是每个决定都需要人，但某些决定绝对不能没有人。
 
+<Image
+  src="/course-visuals/module-7/02-hitl-trigger-matrix.png"
+  alt="Human-in-the-Loop 触发矩阵，使用置信度与影响两个维度区分全自动、事后审计、自动重试和强制人工审批。"
+  width={1920}
+  height={1080}
+/>
+
 ### 触发条件矩阵
 
 ```
@@ -107,6 +139,13 @@ async def execute_with_approval(action: AgentAction) -> Result:
 ## 3. 可观测性：遥测系统架构
 
 传统应用的可观测性三支柱（metrics、logs、traces）在 Agent 场景下需要扩展。你还需要追踪 **推理链路**、**工具调用图**、**token 消耗分布** 和 **语义漂移**。
+
+<Image
+  src="/course-visuals/module-7/03-observability-telemetry-pipeline.png"
+  alt="Agent 可观测性遥测管线图，展示运行时事件如何进入 Trace、Metrics、Logs、Eval 和 Alert 系统，并反馈给值班工程师。"
+  width={1920}
+  height={1080}
+/>
 
 ### 监控架构
 
@@ -365,6 +404,13 @@ Prompt 调优 / Few-shot 示例更新 / Guardrail 规则修改
 没有人能预测 Agent 在每一次对话中会做什么。但你可以搭建一个系统，让你在任何时候都知道它在做什么、为什么这么做、以及如何在必要时接管控制。
 
 这就是 Mission Control 的意义。
+
+## 实战检查表
+
+- [ ] 输入、工具调用、输出三层 guardrail 已经分开设计，而不是混成一个大过滤器
+- [ ] 高影响低置信度操作默认进入 human-in-the-loop，而不是继续自动执行
+- [ ] trace、tool calls、guardrail violations、cost 四类信号都可观测
+- [ ] prompt 变更、模型切换、权限放开都支持评估、灰度和快速回滚
 
 ---
 

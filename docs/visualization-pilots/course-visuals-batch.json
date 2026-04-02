@@ -1,0 +1,137 @@
+{
+  "jobs": 3,
+  "tasks": [
+    {
+      "id": "module-1-01",
+      "promptFiles": [
+        "module-1-context-engineering/prompts/01-context-budget-control-board.md"
+      ],
+      "image": "../../public/course-visuals/module-1/01-context-budget-control-board.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-1-02",
+      "promptFiles": [
+        "module-1-context-engineering/prompts/02-context-strategy-control-board.md"
+      ],
+      "image": "../../public/course-visuals/module-1/02-context-strategy-control-board.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-1-03",
+      "promptFiles": [
+        "module-1-context-engineering/prompts/03-advanced-rag-assembly-pipeline.md"
+      ],
+      "image": "../../public/course-visuals/module-1/03-advanced-rag-assembly-pipeline.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-3-01",
+      "promptFiles": [
+        "module-3-tools-and-mcp/prompts/01-tool-calling-lifecycle.md"
+      ],
+      "image": "../../public/course-visuals/module-3/01-tool-calling-lifecycle.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-3-02",
+      "promptFiles": [
+        "module-3-tools-and-mcp/prompts/02-mcp-host-client-server-architecture.md"
+      ],
+      "image": "../../public/course-visuals/module-3/02-mcp-host-client-server-architecture.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-3-03",
+      "promptFiles": [
+        "module-3-tools-and-mcp/prompts/03-tools-vs-skills-comparison-board.md"
+      ],
+      "image": "../../public/course-visuals/module-3/03-tools-vs-skills-comparison-board.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-5-01",
+      "promptFiles": [
+        "module-5-pipeline-orchestrator/prompts/01-refund-workflow-state-machine.md"
+      ],
+      "image": "../../public/course-visuals/module-5/01-refund-workflow-state-machine.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-5-02",
+      "promptFiles": [
+        "module-5-pipeline-orchestrator/prompts/02-sequential-vs-event-driven-pipeline.md"
+      ],
+      "image": "../../public/course-visuals/module-5/02-sequential-vs-event-driven-pipeline.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-5-03",
+      "promptFiles": [
+        "module-5-pipeline-orchestrator/prompts/03-router-supervisor-planner-board.md"
+      ],
+      "image": "../../public/course-visuals/module-5/03-router-supervisor-planner-board.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-7-01",
+      "promptFiles": [
+        "module-7-production-essentials/prompts/01-guardrail-stack-input-to-output.md"
+      ],
+      "image": "../../public/course-visuals/module-7/01-guardrail-stack-input-to-output.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-7-02",
+      "promptFiles": [
+        "module-7-production-essentials/prompts/02-hitl-trigger-matrix.md"
+      ],
+      "image": "../../public/course-visuals/module-7/02-hitl-trigger-matrix.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    },
+    {
+      "id": "module-7-03",
+      "promptFiles": [
+        "module-7-production-essentials/prompts/03-observability-telemetry-pipeline.md"
+      ],
+      "image": "../../public/course-visuals/module-7/03-observability-telemetry-pipeline.png",
+      "provider": "dashscope",
+      "model": "qwen-image-2.0-pro",
+      "ar": "16:9",
+      "quality": "2k"
+    }
+  ]
+}

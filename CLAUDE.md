@@ -21,3 +21,9 @@ Key routing rules:
 - Design system, brand → invoke design-consultation
 - Visual audit, design polish → invoke design-review
 - Architecture review → invoke plan-eng-review
+
+## 项目规则
+- 更新数据时，检查所有引用同一数据点的文件（JSON数据文件 + 页面组件 + 模板）
+- 硬编码数据必须迁移到 JSON 数据文件
+- 构建后运行 npm run build 验证
+- 每次修改后 curl 所有路由确认 200 响应

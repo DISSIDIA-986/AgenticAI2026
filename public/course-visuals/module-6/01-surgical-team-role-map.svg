@@ -1,0 +1,41 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#16345F">多 Agent 手术团队</text>
+
+  <rect x="660" y="130" width="280" height="160" rx="80" fill="#16345F"/>
+  <text x="800" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#F8FAFC">Orchestrator</text>
+
+  <circle cx="800" cy="510" r="128" fill="#DBEAFE" stroke="#60A5FA" stroke-width="4"/>
+  <rect x="718" y="460" width="164" height="80" rx="14" fill="#F8FAFC" stroke="#94A3B8" stroke-width="4"/>
+  <line x1="800" y1="540" x2="800" y2="580" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="748" y1="580" x2="852" y2="580" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <text x="800" y="642" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#16345F">Task Table</text>
+  <text x="800" y="684" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#475569">shared mission</text>
+
+  <circle cx="430" cy="430" r="120" fill="#2563EB"/>
+  <text x="430" y="414" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC">Executor</text>
+  <text x="430" y="456" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC">Agent</text>
+  <text x="430" y="735" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">执行核心任务</text>
+
+  <circle cx="1170" cy="430" r="120" fill="#0EA5E9"/>
+  <text x="1170" y="414" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC">Tool</text>
+  <text x="1170" y="456" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC">Agent</text>
+  <text x="1170" y="735" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">准备工具与数据</text>
+
+  <circle cx="260" cy="640" r="110" fill="#F59E0B"/>
+  <text x="260" y="624" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#16345F">Monitor</text>
+  <text x="260" y="664" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#16345F">Agent</text>
+  <text x="260" y="798" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">监控异常与反馈</text>
+
+  <path d="M690 250L500 350" stroke="#16345F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M910 250L1100 350" stroke="#16345F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M800 290V382" stroke="#16345F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M535 490L690 512" stroke="#16345F" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1065 490L910 512" stroke="#16345F" stroke-width="6" stroke-linecap="round"/>
+  <path d="M356 708L680 575" stroke="#16345F" stroke-width="6" stroke-linecap="round"/>
+
+  <text x="800" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#16345F">协调下一步</text>
+  <text x="1250" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#16345F">专业化 + 协作</text>
+</svg>

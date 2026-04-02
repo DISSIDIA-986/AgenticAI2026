@@ -1,0 +1,47 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="96" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#16345F">记忆检索三种信号</text>
+
+  <rect x="84" y="200" width="320" height="420" rx="28" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
+  <circle cx="244" cy="300" r="52" fill="#2563EB"/>
+  <circle cx="244" cy="300" r="23" fill="#F8FAFC"/>
+  <path d="M244 248V220" stroke="#2563EB" stroke-width="8" stroke-linecap="round"/>
+  <text x="244" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">Relevance</text>
+  <text x="244" y="456" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">和当前问题</text>
+  <text x="244" y="494" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">有多相关？</text>
+  <rect x="152" y="540" width="184" height="48" rx="24" fill="#2563EB"/>
+  <text x="244" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">weight 0.5</text>
+
+  <rect x="452" y="200" width="320" height="420" rx="28" fill="#FDE4C7" stroke="#F59E0B" stroke-width="4"/>
+  <circle cx="612" cy="300" r="52" fill="#F59E0B"/>
+  <circle cx="612" cy="300" r="7" fill="#F8FAFC"/>
+  <path d="M612 300L612 266" stroke="#F8FAFC" stroke-width="7" stroke-linecap="round"/>
+  <path d="M612 300L642 317" stroke="#F8FAFC" stroke-width="7" stroke-linecap="round"/>
+  <text x="612" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">Recency</text>
+  <text x="612" y="456" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">什么时候存的？</text>
+  <rect x="520" y="540" width="184" height="48" rx="24" fill="#F59E0B"/>
+  <text x="612" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#16345F">weight 0.3</text>
+
+  <rect x="820" y="200" width="320" height="420" rx="28" fill="#DCFCE7" stroke="#16A34A" stroke-width="4"/>
+  <polygon points="980,240 994,282 1038,282 1002,308 1016,350 980,324 944,350 958,308 922,282 966,282" fill="#16A34A"/>
+  <text x="980" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16345F">Importance</text>
+  <text x="980" y="456" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">这条记忆</text>
+  <text x="980" y="494" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">有多重要？</text>
+  <rect x="888" y="540" width="184" height="48" rx="24" fill="#16A34A"/>
+  <text x="980" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">weight 0.2</text>
+
+  <path d="M1140 410H1220" stroke="#16345F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M1208 396L1238 410L1208 424" stroke="#16345F" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="1240" y="270" width="280" height="280" rx="28" fill="#16345F"/>
+  <text x="1380" y="336" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC">memory_score</text>
+  <text x="1380" y="404" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#F8FAFC">relevance × 0.5</text>
+  <text x="1380" y="442" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#F8FAFC">+</text>
+  <text x="1380" y="480" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#F8FAFC">recency × 0.3</text>
+  <text x="1380" y="518" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#F8FAFC">+</text>
+  <text x="1380" y="556" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#F8FAFC">importance × 0.2</text>
+
+  <text x="800" y="760" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">不要只看 cosine similarity</text>
+</svg>
