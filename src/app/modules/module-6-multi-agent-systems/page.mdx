@@ -1,12 +1,38 @@
+import Image from 'next/image'
+import MultiAgentDemoLoader from '@/components/visualizations/MultiAgentDemoLoader'
+
 # Module 6: 多 Agent 系统（Multi-Agent Systems）
 
 > **核心比喻：** 手术团队 — 主刀医生、麻醉师、护士各有专长，协调者管理整体流程。没有人能独自完成一台手术，也没有单个 Agent 能高效处理所有类型的任务。
+
+## 这章在解决什么问题？
+
+多 Agent 不是“把 Agent 数量乘起来”，而是把角色冲突、上下文污染和多视角审查这些单体瓶颈拆开处理。这一章要回答的是：什么时候值得拆，拆完怎么协作，怎样避免系统变成互相踢皮球。
+
+## 读这一章时，先盯住三件事
+
+- 多 Agent 真正的收益来自专业化、隔离和互相校验，而不是“更热闹”
+- 固定管道和动态编排分别适合什么类型的协作
+- 共享状态、消息传递、层级委托三种通信方式的代价是什么
+
+## 学完后你应该能做什么
+
+- 判断一个任务到底该继续用单 Agent，还是已经值得拆成多角色协作
+- 为不同 Agent 设计清晰职责边界和消息接口
+- 识别多 Agent 系统里最常见的循环、串线和成本失控问题
 
 ## 交互演示：多 Agent 消息流可视化
 
 观察多个 Agent 之间的消息传递过程。两个场景：专家委员会写博客、辩论模式减少幻觉。拖动时间轴查看每条消息的流向。
 
-<MultiAgentDemo />
+<Image
+  src="/course-visuals/module-6/01-surgical-team-role-map.svg"
+  alt="多 Agent 手术团队角色图，展示 Orchestrator、Executor Agent、Monitor Agent 和 Tool Agent 如何围绕同一任务协作。"
+  width={1600}
+  height={900}
+/>
+
+<MultiAgentDemoLoader />
 
 ---
 
@@ -29,6 +55,13 @@
 | 手术协调员 | Orchestrator | 协调所有角色的工作顺序 |
 
 ## 两种编排模式
+
+<Image
+  src="/course-visuals/module-6/02-fixed-pipeline-vs-dynamic-orchestration.png"
+  alt="固定管道与动态编排对照图，比较预定义执行顺序和由 Orchestrator 动态选择下一步之间的差异。"
+  width={1920}
+  height={1080}
+/>
 
 ### 模式 1：固定管道（Fixed Pipeline）
 
@@ -104,6 +137,13 @@ class Orchestrator:
 ## 通信模式
 
 多个 Agent 之间怎么交流？三种主要模式：
+
+<Image
+  src="/course-visuals/module-6/03-agent-communication-modes-board.png"
+  alt="三种多 Agent 通信模式对照图，比较共享状态、消息传递和层级委托在结构和风险上的差异。"
+  width={1920}
+  height={1080}
+/>
 
 ### 1. 共享状态（Shared State）
 
@@ -258,6 +298,13 @@ def iterative_improve(draft: str, rounds: int = 3) -> str:
 多 Agent 系统的核心是三件事：**专业化**（每个 Agent 做一件事做好）、**编排**（谁先谁后、如何决策）、**通信**（怎么共享信息）。
 
 **关键认知：** 从一个 Agent 开始。只在单 Agent 遇到明确瓶颈时（角色冲突、上下文过长、需要多视角检查）才拆分为多 Agent。过度设计多 Agent 系统是最常见的错误。
+
+## 实战检查表
+
+- [ ] 先用单 Agent 跑通任务，再为明确瓶颈拆角色
+- [ ] 每个 Agent 都有清晰职责、输入格式和输出契约，不靠默契通信
+- [ ] 系统有最大轮次、循环检测和成本上限，避免互相转发失控
+- [ ] 只有在多视角审查、并行化或上下文隔离有明确收益时才用多 Agent
 
 ---
 

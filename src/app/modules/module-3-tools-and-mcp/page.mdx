@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 # Module 3: Tools & MCP（工具与 MCP 协议）
 
 > **核心比喻：** 工匠与工具 — Agent 是工匠，工具是专业器具，MCP 是万能适配器（AI 的 USB-C）。
@@ -6,9 +8,32 @@
 
 ---
 
+## 这章在解决什么问题？
+
+Agent 真正有价值，不是因为它会“说”，而是因为它会“做”。这一章要回答的是：怎么把外部能力安全地接给 Agent，以及为什么 MCP 会成为这一层的标准接口。
+
+## 读这一章时，先盯住三件事
+
+- tool schema 为什么不是注释，而是模型决策的输入
+- MCP 到底解决了哪种工具生态碎片化问题
+- 为什么工具安全的关键不在 LLM，而在运行时校验和权限边界
+
+## 学完后你应该能做什么
+
+- 设计一个 LLM 真能正确使用的 tool schema
+- 向别人解释 MCP 的 Host、Client、Server、Transport 各自扮演什么角色
+- 把原子 tool 和高层 skill 清楚分层，避免工具层职责膨胀
+
 ## 1. Function Calling 机制：从文本到行动
 
 Function calling 的本质是让 LLM 输出**结构化的函数调用指令**，而非自由文本。三个关键阶段：
+
+<Image
+  src="/course-visuals/module-3/01-tool-calling-lifecycle.svg"
+  alt="工具调用生命周期图，展示用户请求如何经过 LLM、tool_call、Runtime、tool_result 再回到 LLM 并产出最终答案。"
+  width={1600}
+  height={900}
+/>
 
 ### Schema 定义
 
@@ -91,6 +116,13 @@ Model Context Protocol（MCP）由 Anthropic 于 2024 年 11 月开源，定位�
 ---
 
 ## 3. MCP 架构：客户端-服务端模型
+
+<Image
+  src="/course-visuals/module-3/02-mcp-host-client-server-architecture.svg"
+  alt="MCP Host、Client、Server 架构图，展示 Host 内的 MCP Client 通过 transport 连接多个 MCP Server，以及 Server 内部的 Tools、Resources、Prompts。"
+  width={1600}
+  height={900}
+/>
 
 ```mermaid
 graph TB
@@ -205,6 +237,13 @@ async def query_database(params: DatabaseQuery) -> str:
 ## 5. Tools vs Skills：原子操作与高层编排
 
 这个区分经常被混淆，但对架构设计至关重要：
+
+<Image
+  src="/course-visuals/module-3/03-tools-vs-skills-comparison-board.png"
+  alt="Tools 与 Skills 对照图，比较原子操作和多步骤编排在粒度、状态、逻辑和示例上的差异。"
+  width={1920}
+  height={1080}
+/>
 
 | 维度 | Tool（工具） | Skill（技能） |
 |------|-------------|--------------|
@@ -403,6 +442,13 @@ MCP 天然支持这个模式——每个 Server 暴露少量相关工具，Clien
 5. Tool 是原子操作，Skill 是高层编排——分清这两层才能设计好 Agent 架构
 6. 工具描述是 LLM 决策的唯一依据，写不好就等于没有这个工具
 7. 永远不信任 LLM 的工具调用参数——校验、校验、再校验
+
+## 实战检查表
+
+- [ ] 每个工具都有清晰 description、严格参数 schema 和运行时校验
+- [ ] 高风险操作默认最小权限、白名单、只读优先
+- [ ] 单轮任务只暴露真正需要的工具，而不是把整个工具箱全丢给模型
+- [ ] 把“原子 tool”和“多步 skill”拆成两层，而不是混成一个大工具
 
 ---
 

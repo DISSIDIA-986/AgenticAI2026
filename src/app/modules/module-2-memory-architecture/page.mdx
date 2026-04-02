@@ -1,12 +1,38 @@
+import Image from 'next/image'
+import MemoryDemoLoader from '@/components/visualizations/MemoryDemoLoader'
+
 # Module 2: 记忆架构（Memory Architecture）
 
 > **核心比喻：** 人类记忆模型 — 工作记忆（短期，容量有限），长期存储（需要检索），情景回忆（特定经历的快照）。Agent 的记忆系统和人脑惊人地相似。
+
+## 这章在解决什么问题？
+
+Context window 只能装下眼前正在看的东西。真正能让 Agent 持续变聪明的，不是更大的窗口，而是知道哪些信息该留在眼前，哪些该存到外部，什么时候再把它们找回来。
+
+## 读这一章时，先盯住三件事
+
+- 为什么“能存”不等于“有记忆能力”，难点其实在检索
+- 四种记忆类型分别服务哪一种任务
+- 检索为什么必须同时考虑相关性、时效性和重要性
+
+## 学完后你应该能做什么
+
+- 区分工作记忆、长期记忆、情景记忆、语义缓存四条不同职责
+- 为记忆检索设计一个比“只看向量相似度”更靠谱的评分函数
+- 判断一个 Agent 的问题是“没记住”还是“记住了但没取出来”
 
 ## 交互演示：记忆状态检查器
 
 观察 Agent 记忆系统的实时变化。四种记忆类型（工作记忆、长期记忆、情景记忆、语义缓存）如何存储、检索、淘汰和压缩。拖动时间轴查看每个操作的效果。
 
-<MemoryDemo />
+<Image
+  src="/course-visuals/module-2/01-four-memory-types-board.svg"
+  alt="四种记忆类型结构图，展示 Working Memory、Long-term Memory、Episodic Memory 和 Semantic Cache 如何围绕当前 Agent 工作。"
+  width={1600}
+  height={900}
+/>
+
+<MemoryDemoLoader />
 
 ---
 
@@ -114,6 +140,13 @@ class SemanticCache:
 
 存入记忆只是一半。**检索**才是难点。
 
+<Image
+  src="/course-visuals/module-2/02-memory-retrieval-score-matrix.svg"
+  alt="记忆检索三种信号评分图，比较 Relevance、Recency 和 Importance 如何组合成最终记忆得分。"
+  width={1600}
+  height={900}
+/>
+
 ### 三种检索信号
 
 | 信号 | 问题 | 衡量方式 | 局限 |
@@ -139,6 +172,13 @@ def memory_score(memory, query, current_time):
 ```
 
 ## 记忆架构模式
+
+<Image
+  src="/course-visuals/module-2/03-layered-memory-loading-pattern.png"
+  alt="分层记忆加载图，展示用户画像、项目上下文、当前任务和对话历史如何逐层装入 active context window。"
+  width={1920}
+  height={1080}
+/>
 
 ### 模式 1：对话摘要（最简单）
 
@@ -192,6 +232,13 @@ tools = [
 记忆是 Agent 从"工具"进化为"助手"的关键。四种类型各有用途。
 
 **关键认知：** 记忆的难点不在"存"，而在"取"。检索质量决定记忆系统的价值。
+
+## 实战检查表
+
+- [ ] 没有把所有记忆问题都粗暴塞进一个向量库里
+- [ ] 检索评分同时考虑相关性、时效性和重要性，而不是只看 cosine similarity
+- [ ] 写入记忆前有门槛或压缩策略，避免垃圾记忆持续堆积
+- [ ] 多用户场景按用户或项目隔离存储，避免隐私和上下文串线
 
 ---
 

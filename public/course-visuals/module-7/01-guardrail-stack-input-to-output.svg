@@ -1,0 +1,86 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#16345F">Guardrail Stack</text>
+  <text x="800" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">Layered defenses decide when to allow, block, degrade, or hand work back to a safer path.</text>
+
+  <defs>
+    <marker id="arrow-blue" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#EA580C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="502" y="182" width="420" height="88" rx="22" fill="#16345F"/>
+  <text x="712" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#F8FAFC">User Request</text>
+
+  <rect x="502" y="312" width="420" height="88" rx="22" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
+  <text x="712" y="366" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#16345F">Input Guardrails</text>
+
+  <rect x="502" y="442" width="420" height="88" rx="22" fill="#E0F2FE" stroke="#0284C7" stroke-width="4"/>
+  <text x="712" y="496" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#16345F">LLM Call</text>
+
+  <rect x="502" y="572" width="420" height="88" rx="22" fill="#FEF3C7" stroke="#D97706" stroke-width="4"/>
+  <text x="712" y="626" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#16345F">Tool Call Guardrails</text>
+
+  <rect x="502" y="702" width="420" height="88" rx="22" fill="#DCFCE7" stroke="#16A34A" stroke-width="4"/>
+  <text x="712" y="756" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#16345F">Output Guardrails</text>
+
+  <rect x="1060" y="246" width="314" height="480" rx="30" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="4"/>
+  <text x="1217" y="304" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#16345F">System Controls</text>
+
+  <rect x="1112" y="344" width="210" height="58" rx="18" fill="#BFDBFE"/>
+  <text x="1217" y="381" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#16345F">token budget</text>
+
+  <rect x="1112" y="424" width="210" height="58" rx="18" fill="#BFDBFE"/>
+  <text x="1217" y="461" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#16345F">latency SLO</text>
+
+  <rect x="1112" y="504" width="210" height="58" rx="18" fill="#BFDBFE"/>
+  <text x="1217" y="541" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#16345F">error rate</text>
+
+  <rect x="1112" y="584" width="210" height="58" rx="18" fill="#BFDBFE"/>
+  <text x="1217" y="621" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#16345F">circuit breaker</text>
+
+  <path d="M712 270V312" stroke="#2563EB" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <path d="M712 400V442" stroke="#2563EB" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <path d="M712 530V572" stroke="#2563EB" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <path d="M712 660V702" stroke="#2563EB" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+
+  <rect x="502" y="816" width="420" height="52" rx="18" fill="#16345F"/>
+  <text x="712" y="850" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#F8FAFC">Response</text>
+  <path d="M712 790V816" stroke="#2563EB" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+
+  <path d="M922 356H1012" stroke="#EA580C" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+  <text x="968" y="334" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#9A3412">block</text>
+
+  <path d="M922 486H1012" stroke="#EA580C" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+  <text x="968" y="464" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#9A3412">throttle</text>
+
+  <path d="M922 616H1012" stroke="#EA580C" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+  <text x="968" y="594" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#9A3412">deny unsafe call</text>
+
+  <path d="M922 746H1012" stroke="#EA580C" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+  <text x="968" y="724" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#9A3412">rewrite or redact</text>
+
+  <path d="M1060 676H992V842H922" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+  <text x="1006" y="826" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#065F46">fallback to safe response path</text>
+
+  <text x="240" y="366" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#16345F">Input layer</text>
+  <text x="240" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">injection</text>
+  <text x="240" y="436" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">topic boundary</text>
+  <text x="240" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">PII exposure</text>
+
+  <text x="240" y="624" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#16345F">Tool layer</text>
+  <text x="240" y="662" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">allowlist</text>
+  <text x="240" y="694" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">arg bounds</text>
+  <text x="240" y="726" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#475569">call frequency</text>
+
+  <rect x="84" y="796" width="1410" height="60" rx="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="789" y="834" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">Rule of thumb: check intent before the model runs, check permissions before tools run, and check content before anything leaves the system.</text>
+</svg>

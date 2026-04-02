@@ -1,0 +1,89 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#16345F">Refund Workflow State Machine</text>
+  <text x="800" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">Explicit states make pause, approval, retry, and recovery observable.</text>
+
+  <defs>
+    <marker id="arrow-blue" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-slate" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#DC2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <circle cx="156" cy="335" r="32" fill="#16345F"/>
+  <text x="156" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#16345F">Start</text>
+
+  <rect x="260" y="240" width="220" height="112" rx="26" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
+  <text x="370" y="292" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Validating</text>
+  <text x="370" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">check order / payment / user</text>
+
+  <rect x="560" y="240" width="260" height="112" rx="26" fill="#E0F2FE" stroke="#0284C7" stroke-width="4"/>
+  <text x="690" y="292" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Checking Policy</text>
+  <text x="690" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">rules, limits, manual-review gate</text>
+
+  <rect x="920" y="180" width="248" height="112" rx="26" fill="#FEF3C7" stroke="#D97706" stroke-width="4"/>
+  <text x="1044" y="232" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Pending Approval</text>
+  <text x="1044" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">wait for finance or ops</text>
+
+  <rect x="920" y="388" width="248" height="112" rx="26" fill="#DCFCE7" stroke="#16A34A" stroke-width="4"/>
+  <text x="1044" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Calculating</text>
+  <text x="1044" y="478" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">amount, fees, tax adjustments</text>
+
+  <rect x="1260" y="388" width="220" height="112" rx="26" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
+  <text x="1370" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Executing</text>
+  <text x="1370" y="478" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">submit refund transaction</text>
+
+  <rect x="1260" y="618" width="220" height="112" rx="26" fill="#D1FAE5" stroke="#059669" stroke-width="4"/>
+  <text x="1370" y="670" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Completed</text>
+  <text x="1370" y="708" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#16345F">notify user / close ticket</text>
+
+  <rect x="560" y="618" width="220" height="112" rx="26" fill="#FEE2E2" stroke="#DC2626" stroke-width="4"/>
+  <text x="670" y="670" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#7F1D1D">Rejected</text>
+  <text x="670" y="708" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#7F1D1D">invalid order or approval denied</text>
+
+  <circle cx="1520" cy="674" r="32" fill="#16345F"/>
+  <circle cx="1520" cy="674" r="18" fill="#FAF8F5"/>
+  <text x="1520" y="742" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#16345F">End</text>
+
+  <path d="M188 335H260" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <text x="224" y="314" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">request received</text>
+
+  <path d="M480 296H560" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <text x="520" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">order valid</text>
+
+  <path d="M820 296H920" stroke="#475569" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-slate)"/>
+  <text x="870" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">needs approval</text>
+
+  <path d="M1044 292V388" stroke="#475569" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-slate)"/>
+  <text x="1078" y="348" font-family="Arial, sans-serif" font-size="22" fill="#16345F">approved</text>
+
+  <path d="M1170 444H1260" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <text x="1216" y="422" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">amount confirmed</text>
+
+  <path d="M1370 500V618" stroke="#16A34A" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-slate)"/>
+  <text x="1408" y="566" font-family="Arial, sans-serif" font-size="22" fill="#16345F">payment success</text>
+
+  <path d="M1480 674H1488" stroke="#16345F" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-slate)"/>
+
+  <path d="M560 674H494V296H260V674H560" stroke="#DC2626" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+  <text x="408" y="656" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#7F1D1D">validation failed</text>
+
+  <path d="M1044 500V560H890V674H780" stroke="#DC2626" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+  <text x="952" y="548" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#7F1D1D">approval denied</text>
+
+  <path d="M1260 444H1222V560H1044" stroke="#475569" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-slate)"/>
+  <text x="1190" y="548" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">auto-approved</text>
+
+  <path d="M1370 388V328H1196V444H1170" stroke="#2563EB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-blue)"/>
+  <text x="1284" y="314" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">retry with recalculated amount</text>
+
+  <rect x="104" y="782" width="1392" height="72" rx="20" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="800" y="827" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#16345F">Why it matters: every box is a persistable checkpoint, so the workflow can pause, resume, branch, and retry without losing context.</text>
+</svg>
