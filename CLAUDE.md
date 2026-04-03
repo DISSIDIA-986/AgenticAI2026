@@ -27,3 +27,11 @@ Key routing rules:
 - 硬编码数据必须迁移到 JSON 数据文件
 - 构建后运行 npm run build 验证
 - 每次修改后 curl 所有路由确认 200 响应
+- 修改课程结构或学习路径时，同步更新 README 和首页 `src/app/page.mdx`
+- 修改可视化资源时，同步检查：
+  - `docs/visualization-system.md`
+  - `docs/visualization-pilots/` 对应模块文档
+  - `public/course-visuals/` 最终资产
+  - 对应模块 `page.mdx` 的图片引用
+- 优先使用 SVG 承载带文字的系统图，避免把带脏字的 PNG 留在最终页面
+- 如果某张公共图片已经不再被页面引用，从 `public/course-visuals/` 删除，避免部署体积继续膨胀
