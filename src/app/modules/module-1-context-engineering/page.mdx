@@ -1,6 +1,24 @@
+import Image from 'next/image'
+
 # Module 1: Context Engineering（上下文工程）
 
 > **核心比喻：** 工作台 — 你的桌面空间有限，必须战略性地摆放最重要的资料。
+
+## 这章在解决什么问题？
+
+当 Agent 不再是一次性问答，而是持续多轮工作时，你不能只想“prompt 怎么写”，而要想“每一轮到底给模型看到什么，删掉什么，保留什么”。这一章把这个问题从经验活变成工程问题。
+
+## 读这一章时，先盯住三件事
+
+- 为什么 context 质量，往往比模型型号更直接决定结果
+- 压缩、淘汰、排序三件事分别在什么时机发生
+- 为什么进阶 RAG 的本质是组装 context，而不是“接一个向量库”
+
+## 学完后你应该能做什么
+
+- 为 Agent 设计明确的 context budget 和装配顺序
+- 解释 HyDE、Reranking、Metadata Filtering 各自解决什么检索问题
+- 快速判断一个 Agent 是“模型不行”还是“喂给模型的 context 不对”
 
 ## 从 Prompt Engineering 到 Context Engineering
 
@@ -28,7 +46,23 @@
 
 一个 128K 窗口里塞满精准信息，远胜于 1M 窗口里堆满无关文档。
 
+<Image
+  src="/course-visuals/module-1/01-context-budget-control-board.svg"
+  alt="Context budget 控制板，展示 system prompt、recent chat、RAG docs 和 history summary 如何在有限 token 预算内组装最终上下文。"
+  width={1600}
+  height={900}
+/>
+
+*先把 context 看成预算分配板，再看后面的压缩和淘汰策略，会更容易建立工程直觉。*
+
 ### 三大策略：压缩、淘汰、排序
+
+<Image
+  src="/course-visuals/module-1/02-context-strategy-control-board.png"
+  alt="压缩、淘汰、排序三种上下文策略对照图，比较它们的触发条件、动作和结果。"
+  width={1920}
+  height={1080}
+/>
 
 ```mermaid
 flowchart TD
@@ -165,6 +199,13 @@ LLM 对上下文中的位置敏感。经典研究 *Lost in the Middle*（Liu et 
 ## RAG 进阶模式
 
 基础 RAG（检索 → 拼接 → 生成）在 2024 年就不够用了。以下是三个你需要掌握的进阶模式。
+
+<Image
+  src="/course-visuals/module-1/03-advanced-rag-assembly-pipeline.svg"
+  alt="高级 RAG 装配流程图，展示 Query 如何经过 HyDE、Metadata Filtering、向量检索和 Reranking，最终组装成 Final Context。"
+  width={1600}
+  height={900}
+/>
 
 ### HyDE：Hypothetical Document Embeddings
 
@@ -342,6 +383,13 @@ context = """
 3. **RAG 是 Context Engineering 的关键工具**——但要用 HyDE + Reranking + Metadata Filtering 的组合拳
 4. **信噪比 > 信息量**——少而精的 context 胜过多而杂的 context
 5. **位置敏感**——利用 Lost in the Middle 效应，把关键信息放在开头和结尾
+
+## 实战检查表
+
+- [ ] 为 `system / recent chat / rag docs / summary` 分配过明确预算
+- [ ] 每一类 context block 都有压缩或淘汰条件，而不是无限累加
+- [ ] 检索链路至少做过一次 rerank 或 metadata filter，而不是只靠 embedding top-k
+- [ ] 过时上下文带有 TTL、版本戳或刷新机制，避免 stale context 混入
 
 ---
 

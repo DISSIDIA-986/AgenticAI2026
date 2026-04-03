@@ -1,0 +1,81 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1599" height="899" stroke="#E2E8F0"/>
+
+  <text x="800" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#16345F">Tool Calling Lifecycle</text>
+  <text x="800" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">The model does not execute the tool itself. It plans, requests, and reasons over returned results.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2L14 8L2 14" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="92" y="250" width="250" height="360" rx="30" fill="#16345F"/>
+  <circle cx="217" cy="348" r="54" fill="#2563EB"/>
+  <circle cx="217" cy="330" r="14" fill="#F8FAFC"/>
+  <path d="M190 390C190 362 244 362 244 390" stroke="#F8FAFC" stroke-width="8" stroke-linecap="round"/>
+  <text x="217" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#F8FAFC">User</text>
+  <text x="217" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">"Find the sales trend</text>
+  <text x="217" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">for last month"</text>
+
+  <rect x="430" y="188" width="340" height="180" rx="26" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
+  <text x="600" y="246" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">Tool Schema</text>
+  <text x="600" y="292" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#16345F">name: query_database</text>
+  <text x="600" y="326" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#16345F">params: sql, database</text>
+
+  <rect x="430" y="422" width="340" height="250" rx="26" fill="#2563EB"/>
+  <circle cx="600" cy="502" r="42" fill="#1D4ED8" stroke="#DBEAFE" stroke-width="4"/>
+  <path d="M574 502H626" stroke="#F8FAFC" stroke-width="7" stroke-linecap="round"/>
+  <path d="M626 502C644 502 650 486 664 486" stroke="#F8FAFC" stroke-width="7" stroke-linecap="round"/>
+  <path d="M664 486V518" stroke="#F8FAFC" stroke-width="7" stroke-linecap="round"/>
+  <text x="600" y="590" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#F8FAFC">LLM</text>
+  <text x="600" y="634" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">reads schema</text>
+  <text x="600" y="668" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">decides whether to call tool</text>
+
+  <rect x="862" y="220" width="296" height="170" rx="26" fill="#E0F2FE" stroke="#0284C7" stroke-width="4"/>
+  <text x="1010" y="278" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">tool_call</text>
+  <text x="1010" y="326" text-anchor="middle" font-family="Menlo, monospace" font-size="23" fill="#16345F">{sql: SELECT ...}</text>
+  <text x="1010" y="356" text-anchor="middle" font-family="Menlo, monospace" font-size="23" fill="#16345F">{database: analytics}</text>
+
+  <rect x="862" y="466" width="296" height="170" rx="26" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="4"/>
+  <text x="1010" y="524" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#16345F">tool_result</text>
+  <text x="1010" y="572" text-anchor="middle" font-family="Menlo, monospace" font-size="23" fill="#16345F">rows: 4</text>
+  <text x="1010" y="602" text-anchor="middle" font-family="Menlo, monospace" font-size="23" fill="#16345F">trend: +18% MoM</text>
+
+  <rect x="1248" y="250" width="262" height="360" rx="30" fill="#334E68"/>
+  <ellipse cx="1379" cy="344" rx="44" ry="14" fill="#DBEAFE"/>
+  <path d="M1335 344V397C1335 405 1355 412 1379 412C1403 412 1423 405 1423 397V344" stroke="#DBEAFE" stroke-width="4"/>
+  <path d="M1335 344C1335 336 1355 329 1379 329C1403 329 1423 336 1423 344" stroke="#DBEAFE" stroke-width="4"/>
+  <text x="1379" y="486" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#F8FAFC">Runtime</text>
+  <text x="1379" y="532" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">validates args</text>
+  <text x="1379" y="566" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#DBEAFE">executes tool safely</text>
+
+  <path d="M342 430H430" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="386" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">request</text>
+
+  <path d="M600 368V422" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="638" y="400" font-family="Arial, sans-serif" font-size="22" fill="#16345F">tool definitions</text>
+
+  <path d="M770 506H862" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="816" y="482" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">chooses tool</text>
+
+  <path d="M1010 390V466" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="1048" y="434" font-family="Arial, sans-serif" font-size="22" fill="#16345F">returns data</text>
+
+  <path d="M1158 305H1248" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="1202" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">dispatch</text>
+
+  <path d="M1248 552H1158" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="1202" y="530" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">observe result</text>
+
+  <path d="M862 551H770" stroke="#2563EB" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="816" y="529" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">inject back into context</text>
+
+  <path d="M600 672V748H217V610" stroke="#2563EB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+  <text x="410" y="782" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#16345F">LLM reads tool_result and writes the final answer</text>
+
+  <rect x="980" y="708" width="474" height="98" rx="24" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="1217" y="751" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#16345F">Guardrail</text>
+  <text x="1217" y="789" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#16345F">Schema + runtime validation matter more than prompt wording.</text>
+</svg>

@@ -1,6 +1,25 @@
+import ReActDemoLoader from '@/components/visualizations/ReActDemoLoader'
+import Image from 'next/image'
+
 # Module 4: 推理与规划（Reasoning & Planning）
 
 > **核心比喻：** 侦探破案 — 提出假设 → 采取行动 → 收集证据 → 修正方向。Agent 的推理过程就像一个经验丰富的侦探，不是一步到位找到答案，而是通过循环迭代逐步逼近真相。
+
+## 这章在解决什么问题？
+
+只会直接续写文本的模型，不会自动变成 Agent。Agent 真正不同的地方在于它会决定下一步做什么、什么时候停、什么时候换策略、什么时候回头反思。这一章讲的就是这套“内部思考骨架”。
+
+## 读这一章时，先盯住三件事
+
+- ReAct 为什么是几乎所有 Agent 框架共享的底层循环
+- 什么任务该用 ReAct，什么任务该先规划再执行
+- 反思和动态工具选择，如何把“会做”升级成“做得稳”
+
+## 学完后你应该能做什么
+
+- 解释 Thought → Action → Observation 为什么是 Agent 的核心循环
+- 判断一个复杂任务该直接迭代推进，还是先分解成计划
+- 给 Agent 补上 max steps、循环检测、反思等最小安全护栏
 
 ## 为什么推理是 Agent 的核心能力？
 
@@ -11,14 +30,6 @@
 
 **推理（Reasoning）让 LLM 从"生成器"升级为"决策者"。** 这是 Agent 和普通 chatbot 的本质区别。
 
-## 交互演示：ReAct 循环可视化
-
-用下面的可视化器体验 ReAct 循环。三个预录的 Agent trace：成功执行、陷入循环、优雅降级。拖动时间轴观察每一步的 Thought → Action → Observation 过程。
-
-<ReActDemo />
-
----
-
 ## ReAct 模式：Agent 推理的基石
 
 ReAct（Reasoning + Acting）是目前最广泛使用的 Agent 推理框架。它的核心是一个简单的循环：
@@ -26,6 +37,15 @@ ReAct（Reasoning + Acting）是目前最广泛使用的 Agent 推理框架。�
 ```
 Thought → Action → Observation → Thought → Action → Observation → ...
 ```
+
+<Image
+  src="/course-visuals/module-4/01-react-loop-framework.svg"
+  alt="ReAct 推理循环结构图，展示用户问题进入 Thought、Action、Observation 的循环，并在信息足够时退出到最终答案。"
+  width={1600}
+  height={900}
+/>
+
+*先把循环看成一张结构图，再去拖动交互演示，理解会快很多。*
 
 用侦探比喻来理解：
 
@@ -35,6 +55,14 @@ Thought → Action → Observation → Thought → Action → Observation → ..
 | **Action** | "我去查一下监控录像" | `call weather_api(city="北京")` |
 | **Observation** | "录像显示嫌疑人在 3:15 出现" | `{"temp": 22, "condition": "晴"}` |
 | **Thought** | "这和不在场证明矛盾，我需要…" | "拿到了数据，现在组织回答给用户" |
+
+## 交互演示：ReAct 循环可视化
+
+用下面的可视化器体验 ReAct 循环。三个预录的 Agent trace：成功执行、陷入循环、优雅降级。拖动时间轴观察每一步的 Thought → Action → Observation 过程。
+
+<ReActDemoLoader />
+
+---
 
 ### 为什么不直接 Action？
 
@@ -123,6 +151,13 @@ Execute: 搜索 MCP → 找到 3 篇好文章
 Continue: [写文章]
 ```
 
+<Image
+  src="/course-visuals/module-4/02-task-decomposition-strategies.svg"
+  alt="任务分解三种策略对照图，比较顺序分解、层级分解和动态分解的结构差异。"
+  width={1600}
+  height={900}
+/>
+
 这就是 **Plan-and-Execute** 模式的核心思想。和 ReAct 的区别：ReAct 每步都重新思考；Plan-and-Execute 先制定完整计划，执行中必要时修改计划。
 
 ## 自我反思（Self-Reflection）
@@ -142,6 +177,13 @@ Level 3: 目标反思
   "用户说'帮我提高代码质量'，我一直在找 bug，
    但也许他更需要的是代码审查而不是 bug 修复"
 ```
+
+<Image
+  src="/course-visuals/module-4/03-self-reflection-ladder.png"
+  alt="自我反思三层结构图，展示结果检查、策略反思和目标反思三层递进关系，以及它们如何反馈回执行。"
+  width={1536}
+  height={2048}
+/>
 
 ### 实现自我反思的代码模式
 
@@ -236,6 +278,13 @@ Agent 选择: weather_api
 推理与规划是 Agent 的大脑。ReAct 是基础循环，任务分解是处理复杂任务的策略，自我反思是错误恢复的机制，动态工具选择是让 Agent 灵活应对的关键。
 
 **关键认知：** 所有 Agent 框架的核心都是这个 Thought → Action → Observation 循环。框架会变，循环不会变。理解了这个循环，你就理解了 Agent 推理的本质。
+
+## 实战检查表
+
+- [ ] Agent 运行时有 `max_steps`、循环检测和不存在工具的硬校验
+- [ ] 需要外部信息时，prompt 明确要求先行动再回答，而不是靠模型自己猜
+- [ ] 复杂任务会先判断用 ReAct 还是 Plan-and-Execute，而不是一律一个套路
+- [ ] 反思机制至少覆盖结果检查和策略反思，不只是在失败后重试
 
 ---
 

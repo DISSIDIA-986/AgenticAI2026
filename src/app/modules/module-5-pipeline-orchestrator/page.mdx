@@ -1,6 +1,24 @@
+import Image from 'next/image'
+
 # Module 5: Pipeline Orchestrator（管道编排器）
 
 > **核心比喻：** 电影导演 + 制作流水线 — 剧本 → 选角 → 拍摄 → 剪辑 → 上映。单个 Agent 的推理循环是演员的演技，Pipeline Orchestrator 是导演对整部电影的调度。没有导演，再好的演员也拍不出好电影。
+
+## 这章在解决什么问题？
+
+当任务从“问一次答一次”变成“跨多步、可暂停、可能失败、可能回滚”的工作流时，靠隐式消息历史已经不够了。你需要显式状态、显式转换和可恢复的编排骨架。
+
+## 读这一章时，先盯住三件事
+
+- 为什么状态机是复杂 Agent 工作流的骨架，而不是“框架内部细节”
+- 顺序管道、事件驱动、图编排各自解决什么问题
+- 什么时候该上 Router、Supervisor、Planner-Executor，什么时候根本不该上
+
+## 学完后你应该能做什么
+
+- 为一个多步骤 Agent 任务画出状态和转换，而不是只写一段大 prompt
+- 判断一个工作流是否真的需要图编排和持久化恢复
+- 用“模式优先”的视角看 LangGraph、CrewAI、AutoGen 等框架差异
 
 ## 为什么 Agent 需要显式状态管理？
 
@@ -28,6 +46,13 @@ Module 4 的 ReAct 循环有一个隐含假设：**所有状态都在消息历�
 ## 状态机：Agent 工作流的骨架
 
 用电影比喻：状态机就是**拍摄计划表**。每个场景（状态）有明确的入场条件和出场条件，导演不会让演员即兴决定下一场拍什么。
+
+<Image
+  src="/course-visuals/module-5/01-refund-workflow-state-machine.svg"
+  alt="退款工作流状态机图，展示 Validating、Checking Policy、Pending Approval、Calculating、Executing、Completed 和 Rejected 之间的状态转换。"
+  width={1600}
+  height={900}
+/>
 
 ### 最小状态机实现
 
@@ -112,6 +137,13 @@ stateDiagram-v2
 
 两种编排策略，适用场景完全不同。
 
+<Image
+  src="/course-visuals/module-5/02-sequential-vs-event-driven-pipeline.svg"
+  alt="顺序管道与事件驱动管道对照图，比较线性执行和事件路由在分支、并发和恢复能力上的差异。"
+  width={1600}
+  height={900}
+/>
+
 ### 顺序管道（Sequential Pipeline）
 
 ```
@@ -157,6 +189,13 @@ Event → Router → [Handler1 | Handler2 | Handler3] → Aggregator → Output
 ## 三种运行时编排模式
 
 这是本模块的核心。所有 Agent 编排框架，剥去 API 差异，底层都是这三种模式的组合。
+
+<Image
+  src="/course-visuals/module-5/03-router-supervisor-planner-board.png"
+  alt="三种运行时编排模式对照图，比较 Router、Supervisor 和 Planner-Executor 的决策结构与适用任务。"
+  width={1920}
+  height={1080}
+/>
 
 ### 1. Router（路由器）
 
@@ -397,6 +436,13 @@ Q5: 是否是生产环境？
 
 - **LangGraph** — 图编排的标杆实现，深入理解状态机 + 图的结合
 - **CrewAI** — 角色驱动编排的代表，适合理解任务分解和团队协作模式
+
+## 实战检查表
+
+- [ ] 在上框架前，先把状态、转换条件和终止条件画清楚了
+- [ ] WorkflowContext 可序列化、可恢复、可审计，而不是只活在内存里
+- [ ] 条件分支写成显式转换，不把关键业务决策完全交给 LLM 自由发挥
+- [ ] 只有真的需要并发、等待、人工介入时，才选择事件驱动或图编排
 
 ---
 
